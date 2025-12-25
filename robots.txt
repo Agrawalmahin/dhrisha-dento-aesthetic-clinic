@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dhrishadentoaestheticclinic.com/sitemap.xml
+Sitemap: https://www.dhrishadentoaestheticclinic.com/sitemap.xml
