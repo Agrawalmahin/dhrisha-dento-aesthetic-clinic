@@ -72,13 +72,13 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 600;
     line-height: 1.2;
 }
 
 h1 {
-    font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+    font-size: clamp(2.5rem, 5vw + 0.5rem, 3.5rem);
 }
 
 h2 {
@@ -629,7 +629,7 @@ address {
 }
 
 .about-tagline {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 1.35rem;
     font-style: italic;
     color: var(--gold);
@@ -1127,7 +1127,7 @@ address {
     font-size: 1.125rem;
     margin-bottom: 1.25rem;
     color: var(--gold);
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Outfit', sans-serif;
 }
 
 .footer-links ul {
