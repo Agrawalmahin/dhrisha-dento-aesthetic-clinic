@@ -262,9 +262,10 @@ address {
 }
 
 .logo-img {
-    height: 9rem;
-    /* Big logo always */
+    height: 10.8rem;
+    /* Big logo always - 20% bigger */
     width: auto;
+    margin-top: 1rem;
     transition: var(--transition);
     position: relative;
     z-index: 1002;
@@ -725,10 +726,48 @@ address {
     opacity: 0.9;
 }
 
+/* ===== Why Trust Us Section ===== */
+.trust-section {
+    padding: 5rem 0;
+    background: var(--secondary);
+}
+
+.trust-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.stat-suffix {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.stat-label {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
 /* ===== Clinic Gallery Section ===== */
 .clinic-gallery {
     padding: 5rem 0 8rem;
-    background: var(--secondary);
+    background: var(--background);
 }
 
 .section-divider {
@@ -796,7 +835,7 @@ address {
 /* ===== Testimonials Section ===== */
 .testimonials {
     padding: 5rem 0 8rem;
-    background: var(--background);
+    background: var(--secondary);
 }
 
 .testimonials-grid {
@@ -894,7 +933,7 @@ address {
 /* ===== Contact Section ===== */
 .contact {
     padding: 5rem 0 8rem;
-    background: var(--secondary);
+    background: var(--background);
 }
 
 .contact-content {
@@ -1109,9 +1148,11 @@ address {
 }
 
 .footer-logo {
-    height: 8rem;
+    height: 9.6rem;
     width: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: -2.5rem;
+    margin-top: -2.5rem;
+    margin-left: -0.9rem;
 }
 
 .footer-brand p {
@@ -1196,6 +1237,11 @@ address {
 
 .social-icons a.whatsapp:hover {
     background: #25D366;
+    color: var(--white);
+}
+
+.social-icons a.google:hover {
+    background: #4285F4;
     color: var(--white);
 }
 
@@ -1325,7 +1371,7 @@ address {
     }
 
     .logo-img {
-        height: 5.5rem;
+        height: 8rem;
     }
 
     .hero h1 {
@@ -1340,6 +1386,23 @@ address {
     .about-text h2,
     .services-header h2 {
         font-size: 2rem;
+    }
+
+    .trust-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 1rem;
+    }
+
+    .trust-stats > div:last-child {
+        grid-column: span 2;
+    }
+
+    .stat-number {
+        font-size: 2.25rem;
+    }
+
+    .stat-suffix {
+        font-size: 1.5rem;
     }
 
     .services-grid {
@@ -1431,7 +1494,7 @@ address {
 
     .footer-logo {
         margin: 0 auto 1rem;
-        height: 6rem;
+        height: 7.2rem;
     }
 
     .social-icons {
