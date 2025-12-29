@@ -52,11 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Navbar background on scroll
+    // Navbar background on scroll with throttling
     const navbar = document.querySelector('.navbar');
     const heroBg = document.querySelector('.hero-bg img');
 
-    window.addEventListener('scroll', function () {
+    // Throttle function to limit scroll event frequency
+    let scrollTicking = false;
+    const handleScroll = () => {
         // Sticky Navbar
         if (window.scrollY > 50) {
             navbar.classList.add('sticky');
@@ -64,12 +66,20 @@ document.addEventListener('DOMContentLoaded', function () {
             navbar.classList.remove('sticky');
         }
 
-        // Hero Parallax
-        if (window.scrollY < 800 && heroBg) {
-            const scrollValue = window.scrollY;
-            heroBg.style.transform = `translateY(${scrollValue * 0.4}px)`;
+        // Hero Parallax (skip if reduced motion preferred)
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion && window.scrollY < 800 && heroBg) {
+            heroBg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
         }
-    });
+        scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', function () {
+        if (!scrollTicking) {
+            requestAnimationFrame(handleScroll);
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
     // Simple fade-in animation on scroll
     const observerOptions = {
@@ -103,7 +113,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Clinic Gallery Carousel - duplicate slides for infinite scroll
     initInfiniteCarousel();
+
+    // Stats counter animation
+    initStatsCounter();
 });
+
+// Stats counter animation - Slow, deliberate counting
+function initStatsCounter() {
+    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+    if (statNumbers.length === 0) return;
+
+    // Track active intervals for cleanup
+    const activeIntervals = new Set();
+
+    // Cleanup on page unload to prevent memory leaks
+    window.addEventListener('beforeunload', () => {
+        activeIntervals.forEach(id => clearInterval(id));
+        activeIntervals.clear();
+    });
+
+    // Respect reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-target'));
+
+        // Skip animation if user prefers reduced motion
+        if (prefersReducedMotion) {
+            element.textContent = target.toLocaleString();
+            return;
+        }
+
+        // Configuration for slow, deliberate counting
+        let startValue, steps, intervalMs;
+
+        if (target >= 10000) {
+            startValue = 9950;
+            steps = (target - startValue) / 10;
+            intervalMs = 80;
+        } else if (target >= 4000) {
+            startValue = 3950;
+            steps = (target - startValue) / 10;
+            intervalMs = 80;
+        } else if (target >= 30) {
+            startValue = 20;
+            steps = target - startValue;
+            intervalMs = 120;
+        } else if (target >= 12) {
+            startValue = 1;
+            steps = target - startValue;
+            intervalMs = 150;
+        } else {
+            startValue = 1;
+            steps = target - startValue;
+            intervalMs = 300;
+        }
+
+        let currentValue = startValue;
+        const increment = (target - startValue) / steps;
+        element.textContent = currentValue.toLocaleString();
+
+        const intervalId = setInterval(() => {
+            currentValue += increment;
+
+            if (currentValue >= target) {
+                currentValue = target;
+                clearInterval(intervalId);
+                activeIntervals.delete(intervalId);
+            }
+
+            element.textContent = Math.floor(currentValue).toLocaleString();
+        }, intervalMs);
+
+        activeIntervals.add(intervalId);
+    };
+
+    // Use Intersection Observer to trigger animation when visible
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statNumbers.forEach(stat => statsObserver.observe(stat));
+}
 
 // Infinite scrolling carousel
 function initInfiniteCarousel() {
